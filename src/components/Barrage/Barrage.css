@@ -22,5 +22,5 @@
 
 .move {
   display: inline-block;
-  animation: move 7s linear forwards;
+  animation: move 3s linear forwards;
 }

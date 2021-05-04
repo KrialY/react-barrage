@@ -13,3 +13,7 @@ export function removeClass(dom, name) {
     dom.className = preClassNameArr.join(" ");
   }
 }
+
+export function addStyle(dom, key, value) {
+  dom.style[key] = value;
+}
