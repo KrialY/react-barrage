@@ -1,26 +1,6 @@
-@keyframes move {
-  from {
-    transform: translateX(0px);
-  }
-  to {
-    transform: translateX(1000px);
-  }
-}
-
 .container {
   border: 1px solid black;
   position: relative;
   width: 100%;
   height: 100%;
-}
-
-.barrage {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.move {
-  display: inline-block;
-  animation: move 3s linear forwards;
 }

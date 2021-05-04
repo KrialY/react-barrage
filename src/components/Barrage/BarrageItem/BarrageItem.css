@@ -1,0 +1,19 @@
+@keyframes move {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(1000px);
+  }
+}
+
+.barrage {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.move {
+  display: inline-block;
+  animation: move 3s linear forwards;
+}
