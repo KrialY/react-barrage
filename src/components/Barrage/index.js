@@ -8,14 +8,15 @@ const data = [
   {value: "弹幕1", status: "stop"},
   {value: "弹幕2", status: "stop"},
   {value: "弹幕3", status: "stop"},
-  {value: "弹幕4", status: "stop"},
-  {value: "弹幕5", status: "stop"},
-  {value: "弹幕6", status: "stop"},
-  {value: "弹幕7", status: "stop"},
-  {value: "弹幕8", status: "stop"},
-  {value: "弹幕9", status: "stop"}];
+  // {value: "弹幕4", status: "stop"},
+  // {value: "弹幕5", status: "stop"},
+  // {value: "弹幕6", status: "stop"},
+  // {value: "弹幕7", status: "stop"},
+  // {value: "弹幕8", status: "stop"},
+  // {value: "弹幕9", status: "stop"}
+  ];
 const initialState = {
-  barrageData: data.slice(0, 5),
+  barrageData: data.slice(0, 2),
   num: 0
 }
 
@@ -34,8 +35,9 @@ function reducer(state, action) {
       let temp = [...state.barrageData];
       const num = state.num;
       
+
       if(num >= data.length) {
-        return state;
+        return {...state, isEnd: true};
       }
       if(num >= state.barrageData.length) {
         const i = findIdle(state.barrageData);
@@ -70,17 +72,22 @@ function reducer(state, action) {
 }
 export default function Barrage(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const {num, barrageData} = state;
+  const {num, barrageData, isEnd} = state;
   const barrageWrapperRef = useRef();
-  let timer = useRef();
+  const isEndRef = useRef(null);
+  const timer = useRef(null);
   
+  isEndRef.current = isEnd;
   const animationEnd = (index) => {
     dispatch({type: 'release', index});
   }
 
   useEffect(() => {
-    console.log(barrageWrapperRef);
     timer.current = setInterval(() => {
+      // console.log(isEndRef.current);
+      if(isEndRef.current) {
+        clearInterval(timer.current);
+      }
       dispatch({type: 'add', data});
     }, 1000)
     
@@ -88,7 +95,17 @@ export default function Barrage(props) {
       clearInterval(timer.current);
       console.log("release resource");
     }
-  }, [])
+  }, [isEnd])
+  /**
+   * 可以重新新增一个useEffect，并且把依赖写入即可。
+   */
+
+  // useEffect(() => {
+  //   if(isEnd) {
+  //     clearInterval(timer.current);
+  //   }
+  // }, [])
+
   console.log("render");
   return (
     <div className="container" ref={barrageWrapperRef}>
