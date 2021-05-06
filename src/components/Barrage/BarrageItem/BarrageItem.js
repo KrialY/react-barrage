@@ -1,28 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './BarrageItem.css';
 
 const STOP = 'stop';
 const MOVE = 'move';
 export default function BarrageItem(props) {
-  const { content, state } = props;
-  // const [status, setStatus] = useState(MOVE);
-  // const [isIdle, setIdle] = useState(true);
+  const { content, state, animationEnd, index } = props;
   const className = state === MOVE ?  'barrage move' : 'barrage';
-  // console.log(status);
+  const barrageRef = useRef();
 
-  // useEffect(() => {
-  //   let timer = setInterval(() => {
-  //     setStatus(MOVE);
-  //     setIdle(false);
-  //   }, 2000);
-  //   return () => {
-  //     clearInterval(timer);
-  //   }
-  // }, [status, isIdle])
+  useEffect(() => {
+    const barrageNode = barrageRef.current;
+    const _animationEnd = (e) => {
+      animationEnd && animationEnd(index);
+    }
+    barrageNode.addEventListener('webkitAnimationEnd', _animationEnd);
+    return () => {
+      barrageNode.removeEventListener('webkitAnimationEnd', _animationEnd);
+    }
+  }, [index, animationEnd])
   
 
   return (
-    <div className={className}>
+    <div ref={barrageRef} className={className}>
       <span>{content}</span>
     </div>
   )
